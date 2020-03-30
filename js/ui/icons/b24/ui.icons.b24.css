@@ -1,0 +1,34 @@
+/*region Common icons*/
+.ui-icon[class*=ui-icon-common-] > i { background-color: #7b8691; }
+
+.ui-icon-common-user > i { background-image: url(/bitrix/js/ui/icons/b24/images/ui-user.svg); }
+
+.ui-icon-common-phone > i { background-image: url(/bitrix/js/ui/icons/b24/images/ui-call.svg); }
+
+.ui-icon-common-notification > i { background-image: url(/bitrix/js/ui/icons/b24/images/ui-notification.svg); }
+
+.ui-icon-common-user-group > i { background-image: url(/bitrix/js/ui/icons/b24/images/ui-user-group.svg); }
+
+.ui-icon-common-company > i { background-image: url(/bitrix/js/ui/icons/b24/images/ui-user-company.svg); }
+
+.ui-icon-common-bitrix24 > i { background-image: url(/bitrix/js/ui/icons/service/images/ui-service-bitrix24.svg); }
+
+.ui-icon-common-cloud > i { background-image: url(/bitrix/js/ui/icons/b24/images/ui-cloud.svg); }
+
+.ui-icon-common-folder > i { background-image: url(/bitrix/js/ui/icons/b24/images/ui-folder.svg); }
+
+.ui-icon-common-info > i { background-image: url(/bitrix/js/ui/icons/b24/images/ui-info.svg); }
+
+.ui-icon-common-question > i { background-image: url(/bitrix/js/ui/icons/b24/images/ui-question.svg); }
+
+/*endregion*/
+
+.ui-icon-package-numbers-five > i {
+	background-color: #9dcf00;
+	background-image: url(/bitrix/js/ui/icons/b24/images/ui-package-numbers-five.svg);
+}
+
+.ui-icon-package-numbers-ten > i {
+	background-color: #55d0e0;
+	background-image: url(/bitrix/js/ui/icons/b24/images/ui-package-numbers-ten.svg);
+}

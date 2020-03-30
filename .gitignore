@@ -1,0 +1,17 @@
+/tmp/
+/cache/
+/html_pages/
+/stack_cache/
+/managed_cache/
+/catalog_export/*
+!/catalog_export/.gitkeep
+/backup/*
+!/backup/index.php
+/.settings.php
+/.settings_extra.php
+/php_interface/dbconn.php
+*.log*
+*.tar.gz*
+*_cs.cache
+*.min.css
+*.min.js

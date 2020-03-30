@@ -1,0 +1,33 @@
+<?
+$MESS["LOG_TYPE_USERS"] = "Actions on users";
+$MESS["LOG_TYPE_NEW_USERS"] = "User registration";
+$MESS["LOG_TYPE_USER_DELETE"] = "Delete user";
+$MESS["LOG_TYPE_USER_EDIT"] = "Edit user";
+$MESS["LOG_TYPE_USER_GROUP_CHANGED"] = "Edit user group";
+$MESS["LOG_USER_REGISTER"] = "A new user #NAME# has been registered";
+$MESS["LOG_USER_DELETE"] = "A user #NAME# has been deleted";
+$MESS["LOG_USER_EDIT"] = "#NAME#'s data has been updated";
+$MESS["LOG_USER_GROUP_CHANGED"] = "#NAME#'s groups have been modified";
+$MESS["LOG_TYPE_BACKUP_ERROR"] = "Error creating backup.";
+$MESS["LOG_TYPE_BACKUP_SUCCESS"] = "Auto backup has been created successfully.";
+$MESS["LOG_TYPE_SITE_CHECK_SUCCESS"] = "Website check has completed successfully.";
+$MESS["LOG_TYPE_SITE_CHECK_ERROR"] = "Website check has completed; there were errors.";
+$MESS["MAIN_EVENTLOG_USER_AUTHORIZE"] = "Successful logon";
+$MESS["MAIN_EVENTLOG_USER_DELETE"] = "User deletion";
+$MESS["MAIN_EVENTLOG_USER_INFO"] = "Password change request";
+$MESS["MAIN_EVENTLOG_USER_LOGIN"] = "Logon errors";
+$MESS["MAIN_EVENTLOG_USER_LOGINBYHASH_FAILED"] = "Login with stored authorization failed";
+$MESS["MAIN_EVENTLOG_USER_LOGOUT"] = "Logoff";
+$MESS["MAIN_EVENTLOG_USER_PASSWORD_CHANGED"] = "User password change";
+$MESS["MAIN_EVENTLOG_USER_REGISTER"] = "New user registration";
+$MESS["MAIN_EVENTLOG_USER_REGISTER_FAIL"] = "Registration error";
+$MESS["MAIN_EVENTLOG_GROUP"] = "User's groups modified";
+$MESS["MAIN_EVENTLOG_GROUP_POLICY"] = "Group security policy modified";
+$MESS["MAIN_EVENTLOG_MODULE"] = "Module's group access permission changed";
+$MESS["MAIN_EVENTLOG_FILE"] = "File access permission changed";
+$MESS["MAIN_EVENTLOG_TASK"] = "Access level changed";
+$MESS["MAIN_EVENTLOG_MP_MODULE_INSTALLED"] = "Marketplace solution has been installed";
+$MESS["MAIN_EVENTLOG_MP_MODULE_UNINSTALLED"] = "Marketplace solution has been uninstalled";
+$MESS["MAIN_EVENTLOG_MP_MODULE_DELETED"] = "Marketplace solution has been deleted";
+$MESS["MAIN_EVENTLOG_MP_MODULE_DOWNLOADED"] = "Marketplace solution has been downloaded";
+?>
