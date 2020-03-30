@@ -1,0 +1,12 @@
+/vendor/
+www/upload/
+www/bitrix/
+www/*.xml
+www/*.csv
+www/**/*.log
+*.tar.gz*
+*.gz*
+*_cs.cache
+*.min.css
+*.min.js
+docker-compose.yml
