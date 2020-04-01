@@ -10,7 +10,8 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "wikimedia/composer-merge-plugin": "dev-master"
+        "wikimedia/composer-merge-plugin": "dev-master",
+        "arrilot/bitrix-migrations": "^2.6"
     },
     "autoload": {
         "psr-4": {
