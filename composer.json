@@ -1,0 +1,27 @@
+{
+    "name": "demo/bitrix",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Artem Prozorov",
+            "email": "artem.g.prozorov@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "wikimedia/composer-merge-plugin": "dev-master"
+    },
+    "extra": {
+        "merge-plugin": {
+            "require": [
+                "www/bitrix/composer-bx.json"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "App"
+        }
+    }
+}
