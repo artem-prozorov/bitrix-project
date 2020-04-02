@@ -11,7 +11,8 @@
     "minimum-stability": "stable",
     "require": {
         "wikimedia/composer-merge-plugin": "dev-master",
-        "arrilot/bitrix-migrations": "^2.6"
+        "arrilot/bitrix-migrations": "^2.6",
+        "phpunit/phpunit": "^9.0"
     },
     "autoload": {
         "psr-4": {
