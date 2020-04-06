@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use App\Services\Images\Synchronizer;
+use App\Services\ImageSyncer\Synchronizer;
 use App\Collections\ImagesToLinksCollection;
 use App\Models\ImageToLink;
 
