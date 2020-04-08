@@ -3,19 +3,19 @@
 namespace App\Services\ImageSyncer\Strategies;
 
 use App\Collections\ImagesToLinksCollection;
-use App\Services\ImageSyncer\Synchronizer;
+use App\Services\ImageSyncer\DataObjects\Product;
 
 class MainImageStrategy implements StrategyInterface
 {
-    public function getRecord(array $product, string $address, ImagesToLinksCollection $currentImages): array
+    public function getRecord(Product $product, string $address, ImagesToLinksCollection $currentImages): array
     {
         return [
-            'element_id' => $product['ID'],
+            'element_id' => $product->getId(),
             'address' => $address,
             'is_main' => true,
             'current_image_value_id' => null,
             'is_processed' => $this->isMainImageProcessed(
-                (int) $product[Synchronizer::DETAIL_PICTURE], 
+                (int) $product->getDetailPictureId(),
                 $currentImages
             ),
         ];

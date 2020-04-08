@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 use App\Services\ImageSyncer\Synchronizer;
 use App\Collections\ImagesToLinksCollection;
 use App\Models\ImageToLink;
+use App\Services\ImageSyncer\DataObjects\Product;
 
 class SynchronzierTest extends TestCase
 {
@@ -11,7 +12,7 @@ class SynchronzierTest extends TestCase
      * @test
      * @dataProvider getData
      */
-    public function synchronizer_returns_correct_images_to_process($product, $images, $expected)
+    public function synchronizer_returns_correct_images_to_process($productData, $images, $expected)
     {
         $currentImages = new ImagesToLinksCollection();
 
@@ -20,6 +21,8 @@ class SynchronzierTest extends TestCase
         }
 
         $synchronizer = new Synchronizer();
+
+        $product = new Product($productData);
 
         $imagesToProcess = $synchronizer->getImagesToProcess($product, $currentImages);
 

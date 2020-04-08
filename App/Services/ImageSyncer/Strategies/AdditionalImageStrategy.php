@@ -3,20 +3,20 @@
 namespace App\Services\ImageSyncer\Strategies;
 
 use App\Collections\ImagesToLinksCollection;
-use App\Services\ImageSyncer\Synchronizer;
+use App\Services\ImageSyncer\DataObjects\Product;
 
 class AdditionalImageStrategy implements StrategyInterface
 {
-    public function getRecord(array $product, string $address, ImagesToLinksCollection $currentImages): array
+    public function getRecord(Product $product, string $address, ImagesToLinksCollection $currentImages): array
     {
         $currentImageValueId = $this->getCurrentImageValueId(
             $address, 
-            $product[Synchronizer::MORE_PHOTO_CODE], 
+            $product->getMorePhotos(), 
             $currentImages
         );
 
         return [
-            'element_id' => $product['ID'],
+            'element_id' => $product->getId(),
             'address' => $address,
             'is_main' => false,
             'is_processed' => ($currentImageValueId !== null),
