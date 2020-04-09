@@ -5,6 +5,7 @@ use App\Services\ImageSyncer\Synchronizer;
 use App\Collections\ImagesToLinksCollection;
 use App\Models\ImageToLink;
 use App\Services\ImageSyncer\DataObjects\{Product, RecordToProcess};
+use App\Services\ImageSyncer\Collections\RecordsToProcessCollection;
 
 class SynchronzierTest extends TestCase
 {
@@ -12,7 +13,7 @@ class SynchronzierTest extends TestCase
      * @test
      * @dataProvider getData
      */
-    public function synchronizer_returns_correct_images_to_process($productData, $images, $expected)
+    public function synchronizer_returns_correct_images_to_process($productData, $images, $expectedData)
     {
         $currentImages = new ImagesToLinksCollection();
 
@@ -25,6 +26,8 @@ class SynchronzierTest extends TestCase
         $product = new Product($productData);
 
         $imagesToProcess = $synchronizer->getImagesToProcess($product, $currentImages);
+
+        $expected = new RecordsToProcessCollection($expectedData);
 
         $this->assertEquals($expected, $imagesToProcess);
     }

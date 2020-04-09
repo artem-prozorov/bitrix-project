@@ -13,7 +13,8 @@
         "wikimedia/composer-merge-plugin": "dev-master",
         "arrilot/bitrix-migrations": "^2.6",
         "phpunit/phpunit": "^9.0",
-        "illuminate/validation": "^7.5"
+        "illuminate/validation": "^7.5",
+        "gamez/typed-collection": "^2.2"
     },
     "autoload": {
         "psr-4": {

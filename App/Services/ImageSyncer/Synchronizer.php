@@ -4,6 +4,7 @@ namespace App\Services\ImageSyncer;
 
 use App\Collections\ImagesToLinksCollection;
 use App\Services\ImageSyncer\DataObjects\Product;
+use App\Services\ImageSyncer\Collections\RecordsToProcessCollection;
 
 class Synchronizer
 {
@@ -15,15 +16,17 @@ class Synchronizer
      * @param	ImagesToLinksCollection	$currentImages	
      * @return	array
      */
-    public function getImagesToProcess(Product $product, ImagesToLinksCollection $currentImages): array
+    public function getImagesToProcess(Product $product, ImagesToLinksCollection $currentImages): RecordsToProcessCollection
     {
-        $data = [];
+        $data = new RecordsToProcessCollection();
 
         foreach ($product->getLinksToImages() as $key => $address) {
 
             $strategy = Strategies\StrategyFactory::getStrategy($key);
 
-            $data[] = $strategy->getRecord($product, $address, $currentImages);
+            $data->push(
+                $strategy->getRecord($product, $address, $currentImages)
+            );
         }
 
         return $data;

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5c7b4d73276179b031e02a0ba9da2d79",
+    "content-hash": "6823051f4719242d22e421294c13fb20",
     "packages": [
         {
             "name": "arrilot/bitrix-migrations",
@@ -295,6 +295,54 @@
                 "validator"
             ],
             "time": "2020-02-13T22:36:52+00:00"
+        },
+        {
+            "name": "gamez/typed-collection",
+            "version": "2.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jeromegamez/typed-collection.git",
+                "reference": "d42721abe507388871e5125461b064639a4d4c90"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jeromegamez/typed-collection/zipball/d42721abe507388871e5125461b064639a4d4c90",
+                "reference": "d42721abe507388871e5125461b064639a4d4c90",
+                "shasum": ""
+            },
+            "require": {
+                "tightenco/collect": "^5.4|^6.0"
+            },
+            "require-dev": {
+                "illuminate/support": "^5.4|^6.0",
+                "phpunit/phpunit": "^5.7|^6.5|^7.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Gamez\\Illuminate\\Support\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jérôme Gamez",
+                    "email": "jerome@gamez.name"
+                }
+            ],
+            "description": "Type-safe collections based on Laravel Collections",
+            "homepage": "https://github.com/jeromegamez/typed-collection",
+            "keywords": [
+                "collection",
+                "laravel",
+                "type-safe",
+                "typed",
+                "typesafe"
+            ],
+            "time": "2019-12-19T16:08:11+00:00"
         },
         {
             "name": "illuminate/container",
