@@ -3,11 +3,11 @@
 namespace App\Services\ImageSyncer\Strategies;
 
 use App\Collections\ImagesToLinksCollection;
-use App\Services\ImageSyncer\DataObjects\Product;
+use App\Services\ImageSyncer\DataObjects\{Product, RecordToProcess};
 
 class AdditionalImageStrategy implements StrategyInterface
 {
-    public function getRecord(Product $product, string $address, ImagesToLinksCollection $currentImages): array
+    public function getRecord(Product $product, string $address, ImagesToLinksCollection $currentImages): RecordToProcess
     {
         $currentImageValueId = $this->getCurrentImageValueId(
             $address, 
@@ -15,13 +15,13 @@ class AdditionalImageStrategy implements StrategyInterface
             $currentImages
         );
 
-        return [
+        return new RecordToProcess([
             'element_id' => $product->getId(),
             'address' => $address,
             'is_main' => false,
             'is_processed' => ($currentImageValueId !== null),
             'current_image_value_id' => $currentImageValueId,
-        ];
+        ]);
     }
 
     /**
