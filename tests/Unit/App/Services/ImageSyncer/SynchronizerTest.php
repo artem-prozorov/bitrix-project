@@ -4,7 +4,7 @@ use PHPUnit\Framework\TestCase;
 use App\Services\ImageSyncer\Synchronizer;
 use App\Collections\ImagesToLinksCollection;
 use App\Models\ImageToLink;
-use App\Services\ImageSyncer\DataObjects\Product;
+use App\Services\ImageSyncer\DataObjects\{Product, RecordToProcess};
 
 class SynchronzierTest extends TestCase
 {
@@ -61,13 +61,15 @@ class SynchronzierTest extends TestCase
                         'IS_MAIN' => true,
                     ],
                 ],
-                [[
-                    'element_id' => 12,
-                    'address' => 'http://project.local/image1.jpg',
-                    'is_main' => true,
-                    'is_processed' => true,
-                    'current_image_value_id' => null,
-                ],],
+                [
+                    new RecordToProcess([
+                        'element_id' => 12,
+                        'address' => 'http://project.local/image1.jpg',
+                        'is_main' => true,
+                        'is_processed' => true,
+                        'current_image_value_id' => null,
+                    ]),
+                ],
             ],
 
             // Третий набор данных
@@ -80,13 +82,13 @@ class SynchronzierTest extends TestCase
                 ],
                 [],
                 [
-                    [
+                    new RecordToProcess([
                         'element_id' => 15,
                         'address' => 'http://project.local/image70.jpg',
                         'is_main' => true,
                         'is_processed' => false,
                         'current_image_value_id' => null,
-                    ],
+                    ]),
                 ],
             ],
 
@@ -113,20 +115,20 @@ class SynchronzierTest extends TestCase
                     ],
                 ],
                 [
-                    [
+                    new RecordToProcess([
                         'element_id' => 15,
                         'address' => 'http://project.local/image73.jpg',
                         'is_main' => true,
                         'is_processed' => false,
                         'current_image_value_id' => null,
-                    ],
-                    [
+                    ]),
+                    new RecordToProcess([
                         'element_id' => 15,
                         'address' => 'http://project.local/image75.jpg',
                         'is_main' => false,
                         'is_processed' => false,
                         'current_image_value_id' => null,
-                    ],
+                    ]),
                 ],
             ],
 
@@ -161,27 +163,27 @@ class SynchronzierTest extends TestCase
                     ],
                 ],
                 [
-                    [
+                    new RecordToProcess([
                         'element_id' => 17,
                         'address' => 'http://project.local/image1.jpg',
                         'is_main' => true,
                         'is_processed' => true,
                         'current_image_value_id' => null,
-                    ],
-                    [
+                    ]),
+                    new RecordToProcess([
                         'element_id' => 17,
                         'address' => 'http://project.local/image2.jpg',
                         'is_main' => false,
                         'is_processed' => true,
                         'current_image_value_id' => 2,
-                    ],
-                    [
+                    ]),
+                    new RecordToProcess([
                         'element_id' => 17,
                         'address' => 'http://project.local/image3.jpg',
                         'is_main' => false,
                         'is_processed' => false,
                         'current_image_value_id' => null,
-                    ],
+                    ]),
                 ],
             ],
         ];

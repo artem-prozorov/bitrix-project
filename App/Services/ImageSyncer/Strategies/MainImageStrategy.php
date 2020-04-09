@@ -3,13 +3,13 @@
 namespace App\Services\ImageSyncer\Strategies;
 
 use App\Collections\ImagesToLinksCollection;
-use App\Services\ImageSyncer\DataObjects\Product;
+use App\Services\ImageSyncer\DataObjects\{Product, RecordToProcess};
 
 class MainImageStrategy implements StrategyInterface
 {
-    public function getRecord(Product $product, string $address, ImagesToLinksCollection $currentImages): array
+    public function getRecord(Product $product, string $address, ImagesToLinksCollection $currentImages): RecordToProcess
     {
-        return [
+        return new RecordToProcess([
             'element_id' => $product->getId(),
             'address' => $address,
             'is_main' => true,
@@ -18,7 +18,7 @@ class MainImageStrategy implements StrategyInterface
                 (int) $product->getDetailPictureId(),
                 $currentImages
             ),
-        ];
+        ]);
     }
 
     /**
