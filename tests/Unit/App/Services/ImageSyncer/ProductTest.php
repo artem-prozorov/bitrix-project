@@ -5,10 +5,11 @@ use App\Services\ImageSyncer\DataObjects\Product;
 
 class ProductTest extends TestCase
 {
-    public function testValidation()
+    /**
+     * @dataProvider gatInvalidData
+     */
+    public function testValidation(array $data)
     {
-        $data = [];
-
         $this->expectException(\InvalidArgumentException::class);
 
         $product = new Product($data);
@@ -31,5 +32,41 @@ class ProductTest extends TestCase
         $this->assertEquals($initialData['DETAIL_PICTURE'], $product->getDetailPictureId());
         $this->assertEquals($initialData['PROPERTY_LINKS_TO_IMAGES_VALUE'], $product->getLinksToImages());
         $this->assertEquals($initialData['PROPERTY_MORE_PHOTO_VALUE'], $product->getMorePhotos());
+    }
+
+    public function gatInvalidData(): array
+    {
+        return [
+            [
+                [],
+            ],
+
+            [
+                [
+                    'ID' => '',
+                    'PROPERTY_LINKS_TO_IMAGES_VALUE' => '',
+                ]
+            ],
+
+            [
+                [
+                    'ID' => '123',
+                    'DETAIL_PICTURE' => '',
+                    'PROPERTY_LINKS_TO_IMAGES_VALUE' => [],
+                    'PROPERTY_MORE_PHOTO_VALUE' => 'asd',
+                ],
+            ],
+
+            [
+                [
+                    'ID' => '123',
+                    'DETAIL_PICTURE' => '',
+                    'PROPERTY_LINKS_TO_IMAGES_VALUE' => [],
+                    'PROPERTY_MORE_PHOTO_VALUE' => [
+                        new stdClass()
+                    ],
+                ],
+            ],
+        ];
     }
 }
