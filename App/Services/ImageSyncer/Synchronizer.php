@@ -9,6 +9,16 @@ use App\Services\ImageSyncer\Collections\RecordsToProcessCollection;
 class Synchronizer
 {
     /**
+     * @var		Downloader	$downloader
+     */
+    protected Downloader $downloader;
+
+    public function __construct(Downloader $downloader)
+    {
+        $this->downloader = $downloader;
+    }
+
+    /**
      * Возвращает массив, описывающий файлы, которые необходимо обработать
      *
      * @access	public
@@ -24,9 +34,15 @@ class Synchronizer
 
             $strategy = Strategies\StrategyFactory::getStrategy($key);
 
-            $data->push(
-                $strategy->getRecord($product, $address, $currentImages)
-            );
+            $record = $strategy->getRecord($product, $address, $currentImages);
+
+            if (! $record->isProcessed()) {
+                $path = $this->downloader->downloadImage($record->getAddress());
+
+                $record->setTempFilePath($path);
+            }
+
+            $data->push($record);
         }
 
         return $data;

@@ -34,6 +34,11 @@ class RecordToProcess
     protected ?int $currentImageValueId;
 
     /**
+     * @var		string	$tempFilePath
+     */
+    protected ?string $tempFilePath;
+
+    /**
      * @var		array	$rules
      */
     protected $rules = [
@@ -42,6 +47,7 @@ class RecordToProcess
         'is_main' => 'required|boolean',
         'is_processed' => 'required|boolean',
         'current_image_value_id' => 'present|nullable|integer',
+        'temp_file_path' => 'nullable|string',
     ];
 
     public function __construct(array $data)
@@ -53,6 +59,7 @@ class RecordToProcess
         $this->isMain = (bool) $data['is_main'];
         $this->isProcessed = (int) $data['is_processed'];
         $this->currentImageValueId = (bool) $data['current_image_value_id'];
+        $this->tempFilePath = $data['temp_file_path'] ?? null;
     }
 
     /**
@@ -93,5 +100,25 @@ class RecordToProcess
     public function getCurrentImageValueId(): ?int
     {
         return $this->currentImageValueId;
+    }
+
+    /**
+     * Get the value of tempFilePath
+     */ 
+    public function getTempFilePath(): ?string
+    {
+        return $this->tempFilePath;
+    }
+
+    /**
+     * Set the value of tempFilePath
+     *
+     * @return  self
+     */ 
+    public function setTempFilePath(string $tempFilePath): RecordToProcess
+    {
+        $this->tempFilePath = $tempFilePath;
+
+        return $this;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use App\Services\ImageSyncer\Synchronizer;
+use App\Services\ImageSyncer\{Downloader, Synchronizer};
 use App\Collections\ImagesToLinksCollection;
 use App\Models\ImageToLink;
 use App\Services\ImageSyncer\DataObjects\{Product, RecordToProcess};
@@ -21,7 +21,10 @@ class SynchronzierTest extends TestCase
             $currentImages->add(new ImageToLink($image));
         }
 
-        $synchronizer = new Synchronizer();
+        $downloader = $this->createMock(Downloader::class);
+        $downloader->method('downloadImage')->willReturn('/tmp/file.jpg');
+
+        $synchronizer = new Synchronizer($downloader);
 
         $product = new Product($productData);
 
@@ -91,6 +94,7 @@ class SynchronzierTest extends TestCase
                         'is_main' => true,
                         'is_processed' => false,
                         'current_image_value_id' => null,
+                        'temp_file_path' => '/tmp/file.jpg',
                     ]),
                 ],
             ],
@@ -124,6 +128,7 @@ class SynchronzierTest extends TestCase
                         'is_main' => true,
                         'is_processed' => false,
                         'current_image_value_id' => null,
+                        'temp_file_path' => '/tmp/file.jpg',
                     ]),
                     new RecordToProcess([
                         'element_id' => 15,
@@ -131,6 +136,7 @@ class SynchronzierTest extends TestCase
                         'is_main' => false,
                         'is_processed' => false,
                         'current_image_value_id' => null,
+                        'temp_file_path' => '/tmp/file.jpg',
                     ]),
                 ],
             ],
@@ -186,6 +192,7 @@ class SynchronzierTest extends TestCase
                         'is_main' => false,
                         'is_processed' => false,
                         'current_image_value_id' => null,
+                        'temp_file_path' => '/tmp/file.jpg',
                     ]),
                 ],
             ],
