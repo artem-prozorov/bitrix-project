@@ -2,12 +2,43 @@
 
 namespace App\Services\ImageSyncer;
 
+use App\Services\ImageSyncer\DataObjects\RecordToProcess;
+use App\Services\ImageSyncer\Exceptions\{FileNotDownloaded, FileNotSaved};
+use App\Base\FileManager;
+
 class Downloader
 {
-    public function downloadImage(string $address): string
+    protected $client;
+
+    protected $fileManager;
+
+    public function __construct(SimpleClient $client, FileManager $fileManager)
     {
-        $contents = file_get_contents($record->getAddress());
-        $tempFile = $this->createTempFile();
-        file_put_contents($tempFile, $contents);
+        $this->client = $client;
+        $this->fileManager = $fileManager;
+    }
+
+    /**
+     * getDownloadedFilePath.
+     *
+     * @access	public
+     * @param	RecordToProcess	$record	
+     * @return	string
+     */
+    public function getDownloadedFilePath(RecordToProcess $record): string
+    {
+        $contents = $this->client->getContents($record->getAddress());
+
+        if (empty($contents)) {
+            throw new FileNotDownloaded('Не смогли скачать файл ' . $record->getAddress());
+        }
+
+        $tempFilePath = $this->fileManager->getTempFileName();
+
+        if (empty($this->fileManager->putContents($tempFilePath, $contents))) {
+            throw new FileNotSaved('Не смогли записать данные во временный файл');
+        }
+
+        return $tempFilePath;
     }
 }

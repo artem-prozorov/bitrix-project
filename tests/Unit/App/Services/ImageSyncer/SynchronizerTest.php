@@ -22,7 +22,7 @@ class SynchronzierTest extends TestCase
         }
 
         $downloader = $this->createMock(Downloader::class);
-        $downloader->method('downloadImage')->willReturn('/tmp/file.jpg');
+        $downloader->method('getDownloadedFilePath')->willReturn('/tmp/file.jpg');
 
         $synchronizer = new Synchronizer($downloader);
 

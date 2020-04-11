@@ -5,6 +5,7 @@ namespace App\Services\ImageSyncer;
 use App\Collections\ImagesToLinksCollection;
 use App\Services\ImageSyncer\DataObjects\Product;
 use App\Services\ImageSyncer\Collections\RecordsToProcessCollection;
+use App\Services\ImageSyncer\Exceptions\DownloaderException;
 
 class Synchronizer
 {
@@ -37,9 +38,15 @@ class Synchronizer
             $record = $strategy->getRecord($product, $address, $currentImages);
 
             if (! $record->isProcessed()) {
-                $path = $this->downloader->downloadImage($record->getAddress());
+                try {
+                    $path = $this->downloader->getDownloadedFilePath($record);
 
-                $record->setTempFilePath($path);
+                    $record->setTempFilePath($path);
+                } catch (DownloaderException $e) {
+                    // @todo Залогировать ошибку
+
+                    continue;
+                }
             }
 
             $data->push($record);
