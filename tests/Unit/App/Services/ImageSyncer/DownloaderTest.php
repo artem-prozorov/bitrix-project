@@ -4,7 +4,7 @@ use PHPUnit\Framework\TestCase;
 use App\Services\ImageSyncer\Downloader;
 use App\Services\ImageSyncer\Exceptions\{FileNotDownloaded, FileNotSaved};
 use App\Services\ImageSyncer\SimpleClient;
-use App\Base\FileManager;
+use App\Facades\FileManager;
 use App\Services\ImageSyncer\DataObjects\RecordToProcess;
 
 class DownloaderTest extends TestCase
@@ -13,6 +13,8 @@ class DownloaderTest extends TestCase
 
     public function setUp(): void
     {
+        FileManager::clearResolvedInstances();
+
         $this->record = new RecordToProcess([
             'element_id' => 12,
             'address' => 'http://project.local/image1.jpg',
@@ -30,7 +32,7 @@ class DownloaderTest extends TestCase
         $client = $this->createMock(SimpleClient::class);
         $client->method('getContents')->willReturn(false);
 
-        $downloader = new Downloader($client, new FileManager());
+        $downloader = new Downloader($client);
 
         $this->expectException(FileNotDownloaded::class);
 
@@ -45,11 +47,10 @@ class DownloaderTest extends TestCase
         $client = $this->createMock(SimpleClient::class);
         $client->method('getContents')->willReturn('contents');
 
-        $fileManager = $this->createMock(FileManager::class);
-        $fileManager->method('putContents')->willReturn(false);
-        $fileManager->method('getTempFileName')->willReturn('/tmp/tempfile');
+        FileManager::shouldReceive('putContents')->andReturn(false);
+        FileManager::shouldReceive('getTempFileName')->willReturn('/tmp/tempfile');
 
-        $downloader = new Downloader($client, $fileManager);
+        $downloader = new Downloader($client);
 
         $this->expectException(FileNotSaved::class);
 
@@ -66,11 +67,10 @@ class DownloaderTest extends TestCase
         $client = $this->createMock(SimpleClient::class);
         $client->method('getContents')->willReturn('contents');
 
-        $fileManager = $this->createMock(FileManager::class);
-        $fileManager->method('putContents')->willReturn(1);
-        $fileManager->method('getTempFileName')->willReturn($expected);
+        FileManager::shouldReceive('putContents')->andReturn(12);
+        FileManager::shouldReceive('getTempFileName')->andReturn($expected);
 
-        $downloader = new Downloader($client, $fileManager);
+        $downloader = new Downloader($client);
 
         $path = $downloader->getDownloadedFilePath($this->record);
 
