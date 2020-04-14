@@ -2,6 +2,8 @@
 
 namespace App\Base;
 
+use CFile;
+
 class FileManager
 {
     /**
@@ -26,5 +28,17 @@ class FileManager
     public function getTempFileName(): string
     {
         return tempnam(sys_get_temp_dir(), 'php');
+    }
+
+    /**
+     * CFile::MakeFileArray wrapper
+     *
+     * @access	public
+     * @param	string	$path	
+     * @return	array
+     */
+    public function getFileArray(string $path): array
+    {
+        return CFile::MakeFileArray($path);
     }
 }
