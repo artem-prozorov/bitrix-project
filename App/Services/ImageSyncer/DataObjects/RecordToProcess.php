@@ -58,7 +58,7 @@ class RecordToProcess
         $this->address = $data['address'];
         $this->isMain = (bool) $data['is_main'];
         $this->isProcessed = (int) $data['is_processed'];
-        $this->currentImageValueId = (bool) $data['current_image_value_id'];
+        $this->currentImageValueId = $data['current_image_value_id'];
         $this->tempFilePath = $data['temp_file_path'] ?? null;
     }
 
