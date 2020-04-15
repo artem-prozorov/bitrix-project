@@ -10,6 +10,8 @@ use App\Datamanagers\ImagesToLinksTable;
 use App\Collections\ImagesToLinksCollection;
 use App\Services\ImageSyncer\Collections\RecordsToProcessCollection;
 use App\Services\ImageSyncer\Exceptions\DataNotSaved;
+use App\Models\ImageToLink;
+use App\Facades\FileTable;
 
 class Repository
 {
@@ -129,5 +131,66 @@ class Repository
         if (! CIBlockElement::Update($product->getId(), ['DETAIL_PICTURE' => $fileData])) {
             throw new DataNotSaved(CIBlockElement::getFacadeRoot()->LAST_ERROR);
         }
+    }
+
+    /**
+     * getSyncedImagesToLinks.
+     *
+     * @access	public
+     * @param	RecordsToProcessCollection	$records	
+     * @return	ImagesToLinksCollection
+     */
+    public function getSyncedImagesToLinks(RecordsToProcessCollection $records): ImagesToLinksCollection
+    {
+        $newRecords = new ImagesToLinksCollection();
+        $fileNames = [];
+
+        foreach ($records as $record) {
+            if ($record->isProcessed()) {
+                continue;
+            }
+
+            if (! empty($record->getTempFilePath())) {
+                $fileNames[] = basename($record->getTempFilePath());
+            }
+        }
+
+        if (empty($fileNames)) {
+            return $newRecords;
+        }
+
+        $existingFiles = $this->getFilesByNames($fileNames);
+
+        foreach ($existingFiles as $existingFile) {
+            foreach ($records as $record) {
+                if ($existingFile['ORIGINAL_NAME'] === basename($record->getTempFilePath())) {
+                    $imageToLink = new ImageToLink([
+                        'FILE_ID' => $existingFile['ID'],
+                        'ELEMENT_ID' => $record->getElementId(),
+                        'ADDRESS' => $record->getAddress(),
+                        'IS_MAIN' => (int) $record->isMain(),
+                    ]);
+
+                    $newRecords->add($imageToLink);
+                }
+            }
+        }
+
+        return $newRecords;
+    }
+
+    /**
+     * getFilesByNames.
+     *
+     * @access	protected
+     * @param	array	$fileNames	
+     * @return	array
+     */
+    protected function getFilesByNames(array $fileNames): array
+    {
+        return FileTable::getList([
+            'filter' => ['ORIGINAL_NAME' => $fileNames],
+            'select' => ['ID', 'ORIGINAL_NAME'],
+        ])->fetchAll();
     }
 }
