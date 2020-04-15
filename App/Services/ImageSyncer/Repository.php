@@ -2,10 +2,14 @@
 
 namespace App\Services\ImageSyncer;
 
-use App\Services\ImageSyncer\DataObjects\Product;
-use App\Facades\CIBlockElement;
+use App\Services\ImageSyncer\DataObjects\{Product, RecordToProcess};
+use App\Facades\{CIBlockElement, FileManager};
 use Bitrix\Main\ObjectNotFoundException;
 use App\Traits\LoadsModules;
+use App\Datamanagers\ImagesToLinksTable;
+use App\Collections\ImagesToLinksCollection;
+use App\Services\ImageSyncer\Collections\RecordsToProcessCollection;
+use App\Services\ImageSyncer\Exceptions\DataNotSaved;
 
 class Repository
 {
@@ -53,5 +57,77 @@ class Repository
         $rawProduct['PROPERTY_LINKS_TO_IMAGES_VALUE'] = $row[static::LINK_TO_IMAGES_PROPERTY_ID];
 
         return new Product($rawProduct);
+    }
+
+    /**
+     * getImagesForProduct.
+     *
+     * @access	public
+     * @param	int	$productId	
+     * @return	ImagesToLinksCollection
+     */
+    public function getImagesForProduct(int $productId): ImagesToLinksCollection
+    {
+        return ImagesToLinksTable::getList(['filter' => ['ELEMENT_ID' => $productId]])->fetchCollection();
+    }
+
+    /**
+     * updateImages.
+     *
+     * @access	public
+     * @param	Product                   	$product	
+     * @param	RecordsToProcessCollection	$records	
+     * @return	void
+     */
+    public function updateImages(Product $product, RecordsToProcessCollection $records): void
+    {
+        $newValues = [];
+        $currentIds = [];
+
+        foreach ($records as $record) {
+            if (! empty($record->getCurrentImageValueId())) {
+                $currentIds[] = $record->getCurrentImageValueId();
+            }
+
+            if ($record->isProcessed()) {
+                continue;
+            }
+
+            if ($record->isMain()) {
+                $this->updateMainImage($product, $record);
+                continue;
+            }
+
+            $newValues[] = FileManager::getFileArray($record->getTempFilePath());
+        }
+
+        foreach (array_keys($product->getMorePhotos()) as $currentId) {
+            if (! in_array($currentId, $currentIds)) {
+                $newValues[$currentId] = ["del" => "Y"];
+            }
+        }
+
+        if (empty($newValues)) {
+            return;
+        }
+
+        CIBlockElement::SetPropertyValues($product->getId(), static::IBLOCK_ID, $newValues, 'MORE_PHOTO');
+    }
+
+    /**
+     * updateMainImage.
+     *
+     * @access	protected
+     * @param	Product	$product
+     * @param	RecordToProcess $record
+     * @return	void
+     */
+    protected function updateMainImage(Product $product, RecordToProcess $record)
+    {
+        $fileData = FileManager::getFileArray($record->getTempFilePath());
+
+        if (! CIBlockElement::Update($product->getId(), ['DETAIL_PICTURE' => $fileData])) {
+            throw new DataNotSaved(CIBlockElement::getFacadeRoot()->LAST_ERROR);
+        }
     }
 }

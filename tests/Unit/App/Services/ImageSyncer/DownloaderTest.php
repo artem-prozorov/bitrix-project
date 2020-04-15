@@ -69,11 +69,18 @@ class DownloaderTest extends TestCase
 
         FileManager::shouldReceive('putContents')->andReturn(12);
         FileManager::shouldReceive('getTempFileName')->andReturn($expected);
+        FileManager::shouldReceive('getFileArray')->andReturn([
+            'name' => 'phpvXrqtq.jpeg',
+            'size' => 71283,
+            'tmp_name' => $expected,
+            'type' => 'image/jpeg',
+        ]);
+        FileManager::shouldReceive('rename')->andReturn(true);
 
         $downloader = new Downloader($client);
 
         $path = $downloader->getDownloadedFilePath($this->record);
 
-        $this->assertEquals($expected, $path);
+        $this->assertEquals($expected . '.jpeg', $path);
     }
 }
