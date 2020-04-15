@@ -83,9 +83,9 @@ class RepositoryTest extends MockeryTestCase
             ]),
         ]);
 
-        CIBlockElement::shouldReceive('Update')->once();
+        CIBlockElement::shouldReceive('Update')->once()->andReturn(true);
         CIBlockElement::shouldReceive('SetPropertyValues')->never();
-        FileManager::shouldReceive('getFileArray')->once()->andReturn([]);
+        FileManager::shouldReceive('getFileArray')->once()->andReturn(['image data here']);
 
         (new Repository())->updateImages($this->getProduct(['http://project.local/image7.jpg']), $records);
     }
@@ -154,7 +154,7 @@ class RepositoryTest extends MockeryTestCase
             ]),
         ]);
 
-        FileManager::shouldReceive('getFileArray')->once()->andReturn([123]);
+        FileManager::shouldReceive('getFileArray')->once()->andReturn(['image data here']);
 
         $repository = new Repository();
 
@@ -164,7 +164,7 @@ class RepositoryTest extends MockeryTestCase
             ->with(
                 50,
                 Repository::IBLOCK_ID,
-                [[123], 12 => ['del' => 'Y'], 30 => ['del' => 'Y']],
+                [['image data here'], 12 => ['del' => 'Y'], 30 => ['del' => 'Y']],
                 'MORE_PHOTO'
             );
 

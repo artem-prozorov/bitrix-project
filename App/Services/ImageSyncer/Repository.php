@@ -2,13 +2,14 @@
 
 namespace App\Services\ImageSyncer;
 
-use App\Services\ImageSyncer\DataObjects\Product;
+use App\Services\ImageSyncer\DataObjects\{Product, RecordToProcess};
 use App\Facades\{CIBlockElement, FileManager};
 use Bitrix\Main\ObjectNotFoundException;
 use App\Traits\LoadsModules;
 use App\Datamanagers\ImagesToLinksTable;
 use App\Collections\ImagesToLinksCollection;
 use App\Services\ImageSyncer\Collections\RecordsToProcessCollection;
+use App\Services\ImageSyncer\Exceptions\DataNotSaved;
 
 class Repository
 {
@@ -113,12 +114,20 @@ class Repository
         CIBlockElement::SetPropertyValues($product->getId(), static::IBLOCK_ID, $newValues, 'MORE_PHOTO');
     }
 
-    
-
-    protected function updateMainImage(Product $product, $record)
+    /**
+     * updateMainImage.
+     *
+     * @access	protected
+     * @param	Product	$product
+     * @param	RecordToProcess $record
+     * @return	void
+     */
+    protected function updateMainImage(Product $product, RecordToProcess $record)
     {
         $fileData = FileManager::getFileArray($record->getTempFilePath());
 
-        CIBlockElement::Update($product->getId(), ['DETAIL_PICTURE' => $fileData]);
+        if (! CIBlockElement::Update($product->getId(), ['DETAIL_PICTURE' => $fileData])) {
+            throw new DataNotSaved(CIBlockElement::getFacadeRoot()->LAST_ERROR);
+        }
     }
 }
