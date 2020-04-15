@@ -41,4 +41,17 @@ class FileManager
     {
         return CFile::MakeFileArray($path);
     }
+
+    /**
+     * rename wrapper
+     *
+     * @access	public
+     * @param	string	$oldnam
+     * @param	string	$newname
+     * @return	bool
+     */
+    public function rename(string $oldname , string $newname): bool
+    {
+        return rename($oldname, $newname);
+    }
 }
